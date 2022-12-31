@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="MauiMvvm.MainPage"
+             xmlns:viewmodel="clr-namespace:MauiMvvm.ViewModel"
+             x:DataType="viewmodel:MainViewModel">
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30"
+            VerticalOptions="StartAndExpand">
+            <Entry Text="{Binding SongName}" />
+            <Button Command="{Binding SearchCommand}" Text="搜 索" />
+
+            <CollectionView ItemsSource="{Binding Songs}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <HorizontalStackLayout Margin="0,10" Padding="10" BackgroundColor="AliceBlue" HeightRequest="80" HorizontalOptions="CenterAndExpand">
+                            <VerticalStackLayout x:DataType="viewmodel:SongTpl">
+                                <Label Text="{x:Binding Name}"></Label>
+                                <Label Text="{x:Binding Artist}"></Label>
+                                <Label Text="{x:Binding Album}"></Label>
+                            </VerticalStackLayout>
+                            <Button Text="下载" HeightRequest="20" 
+                                    x:DataType="viewmodel:SongTpl"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=DownloadCommand}" 
+                                    CommandParameter="{Binding Mid}" />
+                        </HorizontalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
