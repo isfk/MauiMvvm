@@ -12,10 +12,10 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 
 		<!-- Display name -->
-		<ApplicationTitle>MauiMvvm</ApplicationTitle>
+		<ApplicationTitle>音乐下载</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.mauimvvm</ApplicationId>
+		<ApplicationId>cn.com.isfk.music</ApplicationId>
 		<ApplicationIdGuid>73689392-f87e-4b47-96c2-25577f69f76e</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -31,14 +31,14 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
-	  <CreatePackage>false</CreatePackage>
+		<CreatePackage>false</CreatePackage>
 	</PropertyGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
-	  <CreatePackage>false</CreatePackage>
+		<CreatePackage>false</CreatePackage>
 	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
-		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
+		<MauiIcon Include="Resources\AppIcon\appicon.png" Color="#FFFFFF" />
 
 		<!-- Splash Screen -->
 		<MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
@@ -55,15 +55,18 @@
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
 		<PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
 		<PackageReference Include="Plugin.Maui.Audio" Version="1.0.0" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="3.1.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Plugin.Maui.Audio" />
+		<None Remove="Plugin.Maui.Audio" />
+		<None Remove="CommunityToolkit.Maui" />
+		<None Remove="MetadataExtractor" />
 	</ItemGroup>
 	<ItemGroup>
-	  <MauiImage Remove="Resources\Images\dotnet_bot.svg" />
+		<MauiImage Remove="Resources\Images\dotnet_bot.svg" />
 	</ItemGroup>
 	<ItemGroup>
-	  <BundleResource Include="Resources\Images\dotnet_bot.svg" />
+		<BundleResource Include="Resources\Images\dotnet_bot.svg" />
 	</ItemGroup>
 </Project>
