@@ -9,10 +9,13 @@ namespace MauiMvvm.ViewModel
     [ObservableObject]
     partial class MainViewModel
     {
+        public static string savePath = Environment.GetFolderPath(Environment.SpecialFolder.MyMusic) + "/";
+
         public MainViewModel()
         {
             Songs = new ObservableCollection<SongTpl>();
             SongName = string.Empty;
+            MusicPath = savePath;
         }
 
         [ObservableProperty]
@@ -21,12 +24,15 @@ namespace MauiMvvm.ViewModel
         [ObservableProperty]
         private string songName;
 
+        [ObservableProperty]
+        private string musicPath;
+
         [RelayCommand]
         async void Search()
         {
             var url = "https://service-l39ky64n-1255944436.bj.apigw.tencentcs.com/release/search/?type=music&offset=0&limit=20&platform=C&keyword=";
             Debug.WriteLine("search btn clicked");
-            if (string.IsNullOrWhiteSpace(SongName)) 
+            if (string.IsNullOrWhiteSpace(SongName))
             {
                 return;
             }
@@ -64,33 +70,51 @@ namespace MauiMvvm.ViewModel
             var url = $"https://service-l39ky64n-1255944436.bj.apigw.tencentcs.com/release/music/?type=music&mid={mid}";
             Debug.WriteLine(url);
             var client = new HttpClient();
-            var musicResp= await client.GetStringAsync(url);
+            var musicResp = await client.GetStringAsync(url);
             var music = JsonConvert.DeserializeObject<Music>(musicResp);
 
-            Debug.WriteLine($"{music.name} {music.src} {music.img}");
+            Debug.WriteLine($"{music.name}");
 
-            var lrcPath = @"D:\Music\" + music.name + ".lrc";
+            var lrcPath = savePath + music.name + ".lrc";
             File.WriteAllBytes(lrcPath, System.Text.Encoding.UTF8.GetBytes(music.lrc));
             Debug.WriteLine("download done: lrc");
 
+            Debug.WriteLine($"{music.src}");
             if (music.src.Length > 0)
             {
-                var srcPath = @"D:\Music\" + music.name + ".mp3";
-                using HttpResponseMessage srcResp = await client.GetAsync(music.src);
-                using var srcFS = File.Open(srcPath, FileMode.Create);
-                using var srcMS = srcResp.Content.ReadAsStream();
-                await srcMS.CopyToAsync(srcFS);
-                Debug.WriteLine("download done: src");
+                try
+                {
+                    var srcPath = savePath + music.name + ".mp3";
+                    Debug.WriteLine(srcPath);
+                    using HttpResponseMessage srcResp = await client.GetAsync(music.src);
+                    using var srcFS = File.Open(srcPath, FileMode.Create);
+                    using var srcMS = srcResp.Content.ReadAsStream();
+                    await srcMS.CopyToAsync(srcFS);
+                    Debug.WriteLine("download done: src");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("download field: src " + ex.ToString());
+                }
             }
 
+            Debug.WriteLine($"{music.img}");
             if (music.img.Length > 0)
             {
-                var imgPath = @"D:\Music\" + music.name + ".jpg";
-                using HttpResponseMessage imgResp = await client.GetAsync(music.img);
-                using var imgFS = File.Open(imgPath, FileMode.Create);
-                using var imgMS = imgResp.Content.ReadAsStream();
-                await imgMS.CopyToAsync(imgFS);
-                Debug.WriteLine("download done: img");
+                try
+                {
+                    var imgPath = savePath + music.name + ".jpg";
+                    Debug.WriteLine(imgPath);
+                    using HttpResponseMessage imgResp = await client.GetAsync(music.img);
+                    using var imgFS = File.Open(imgPath, FileMode.Create);
+                    using var imgMS = imgResp.Content.ReadAsStream();
+                    await imgMS.CopyToAsync(imgFS);
+                    Debug.WriteLine("download done: img");
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("download field: img" + ex.ToString());
+                }
             }
         }
     }

@@ -9,23 +9,36 @@
             Spacing="25"
             Padding="30"
             VerticalOptions="StartAndExpand">
-            <Entry Text="{Binding SongName}" />
+            <Label Text="{Binding MusicPath}" />
+            <Entry Text="{Binding SongName}" BackgroundColor="AliceBlue" />
             <Button Command="{Binding SearchCommand}" Text="搜 索" />
 
             <CollectionView ItemsSource="{Binding Songs}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <HorizontalStackLayout Margin="0,10" Padding="10" BackgroundColor="AliceBlue" HeightRequest="80" HorizontalOptions="CenterAndExpand">
+                        <HorizontalStackLayout
+                                             Spacing="10"
+                                             Padding="10"
+                                             Margin="0, 0, 0, 10"
+                                             BackgroundColor="AliceBlue"
+                                             HeightRequest="60" HorizontalOptions="EndAndExpand">
                             <VerticalStackLayout x:DataType="viewmodel:SongTpl">
-                                <Label Text="{x:Binding Name}"></Label>
-                                <Label Text="{x:Binding Artist}"></Label>
-                                <Label Text="{x:Binding Album}"></Label>
+                                <Label FontSize="18" Text="{x:Binding Name}"></Label>
+                                <HorizontalStackLayout>
+                                    <Label Text="{x:Binding Artist}"></Label>
+                                    <Label Text=" - " IsVisible="{x:Binding Album.Length}"/>
+                                    <Label Text="{x:Binding Album}"></Label>
+                                </HorizontalStackLayout>
                             </VerticalStackLayout>
-                            <Button Text="下载" HeightRequest="20" 
-                                    x:DataType="viewmodel:SongTpl"
-                                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=DownloadCommand}" 
-                                    CommandParameter="{Binding Mid}" />
+
+                            <HorizontalStackLayout>
+                                <Button Text="下载" HeightRequest="20" 
+                                        x:DataType="viewmodel:SongTpl"
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainViewModel}}, Path=DownloadCommand}" 
+                                        CommandParameter="{Binding Mid}" />
+                            </HorizontalStackLayout>
                         </HorizontalStackLayout>
+
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

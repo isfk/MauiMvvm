@@ -1,4 +1,5 @@
-﻿using MauiMvvm.ViewModel;
+﻿using System.Diagnostics;
+using MauiMvvm.ViewModel;
 
 namespace MauiMvvm;
 
@@ -8,6 +9,6 @@ public partial class MainPage : ContentPage
 	{
 		InitializeComponent();
 		BindingContext = new MainViewModel();
-	}
+    }
 }
 
